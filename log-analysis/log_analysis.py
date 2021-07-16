@@ -105,7 +105,7 @@ def episode_parser(df, action_map=True, episode_map=True):
         y = float(row['y'])
         angle = float(row['steer'])
         ttl = float(row['throttle'])
-        action = int(row['action'])
+        action = str(row['action'])
         reward = float(row['reward'])
 
         try:
@@ -124,7 +124,9 @@ def episode_parser(df, action_map=True, episode_map=True):
     total_rewards = {}
     for x in episode_map.keys():
         arr = episode_map[x]
-        total_rewards[x] = np.sum(arr[:,3])
+        #print(type(arr[:100,3][0]))
+        #sys.exit()
+        total_rewards[x] = np.sum(arr[:,3].astype(np.float))
 
     import operator
     top_idx = dict(sorted(total_rewards.items(), key=operator.itemgetter(1), reverse=True)[:])
